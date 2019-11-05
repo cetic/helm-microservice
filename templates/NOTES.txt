@@ -1,0 +1,8 @@
+Microservice deployed.
+Proxy command for reaching the services:
+{{- $root:= . -}}
+{{- range $service:= .Values.services -}}
+    {{- range $spec:= .specs }}
+        kubectl port-forward svc/{{ include "microservice.fullname" $root }}-svc-{{ $service.name }}  {{ $spec.containerPort | default $spec.port }}:{{ $spec.port }}
+    {{- end }}
+{{- end }}
