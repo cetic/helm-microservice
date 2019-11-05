@@ -11,3 +11,4 @@ jobs:
             - GITHUB_PAGES_REPO: cetic/helm-charts
             - HELM_CHART: microservice
           command: wget -O - https://raw.githubusercontent.com/cetic/helm-microservice/develop/publish.sh | sh
+
