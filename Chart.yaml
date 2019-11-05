@@ -8,8 +8,6 @@ keywords:
   - template
 source:
   - https://github.com/cetic/helm-microservice
-home:
-  - https://github.com/cetic/helm-microservice
 maintainers:
   - name: terence-bigtt
   - name: alexnuttinck
