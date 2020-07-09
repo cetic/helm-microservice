@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: " crccheck/hello-world"
+  repository: "crccheck/hello-world"
   tag: "latest"
   pullPolicy: IfNotPresent
 
@@ -40,6 +40,7 @@ services:
 #targetPort: is the port the container accepts traffic on, 
 #port: is the abstracted Service port, which can be any port other pods use to access the Service
 #https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#serviceport-v1-core
+
 environment:
   - name: VAR1
     value: value1
