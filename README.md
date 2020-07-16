@@ -40,10 +40,10 @@ TBD
 
 ### Install the chart
 
-Install the microservice helm chart with a release name `my-release`:
+Install the microseAboutrvice helm chart with a release name `my-release`:
 
 ```bash
-helm install --name my-release cetic/microservice
+helm install my-release cetic/microservice
 ```
 
 ## Uninstallation
@@ -51,7 +51,7 @@ helm install --name my-release cetic/microservice
 To uninstall/delete the `my-release` deployment:
 
 ```bash
-helm delete --purge my-release
+helm uninstall my-release
 ```
 
 ## Configuration
