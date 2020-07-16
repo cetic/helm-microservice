@@ -47,7 +47,6 @@ environment:
   - name: VAR2
     value: value2
 
-
 ingress:
   enabled: false
   annotations: {}
@@ -55,8 +54,9 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: chart-example.local
-      paths: []
-
+      servicePort: 8000
+      serviceName: web
+      path: /
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

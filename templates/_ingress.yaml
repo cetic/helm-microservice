@@ -1,15 +1,16 @@
 {{- define "ingress" -}}
+{{- $root:= . }}
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "microservice.fullname" . -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ include "microservice.fullname" $root }}
   labels:
-    app.kubernetes.io/name: {{ include "microservice.name" . }}
-    helm.sh/chart: {{ include "microservice.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "microservice.fullname" $root }}
+    helm.sh/chart: {{ include "microservice.chart" $root }}
+    app.kubernetes.io/instance: {{ $root.Release.Name }}
+    app.kubernetes.io/managed-by: {{ $root.Release.Service }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -30,12 +31,10 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-        {{- range .paths }}
-          - path: {{ . }}
+          - path: {{ .path }}
             backend:
-              serviceName: {{ $fullName }}
-              servicePort: http
-        {{- end }}
+              serviceName: {{ include "microservice.fullname" $root }}-svc-{{ .serviceName }}
+              servicePort: {{ .servicePort }}
   {{- end }}
 {{- end -}}
 {{- end -}}
