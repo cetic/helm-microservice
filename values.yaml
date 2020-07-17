@@ -12,6 +12,10 @@ image:
 nameOverride: ""
 fullnameOverride: ""
 
+#imagePullSecrets: 
+#serviceAccount: 
+#annotations:
+
 services:
   - name: web
     type: LoadBalancer

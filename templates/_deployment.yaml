@@ -3,6 +3,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "microservice.fullname" . }}
+  {{- if .Values.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.annotations }}
+    - {{ $key }}: {{ $value }}
+  {{- end }}
+  {{- end }}
   labels:
     app.kubernetes.io/name: {{ include "microservice.name" . }}
     helm.sh/chart: {{ include "microservice.chart" . }}
@@ -23,6 +29,9 @@ spec:
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
       - name: {{ .Values.imagePullSecrets }}
+      {{- end }}
+      {{- if .Values.serviceAccount }}
+      serviceAccountName: {{ .Values.serviceAccount }}
       {{- end }}
       {{- if .Values.hostAliases }}
       hostAliases:
