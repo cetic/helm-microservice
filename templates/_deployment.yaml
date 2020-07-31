@@ -6,7 +6,7 @@ metadata:
   {{- if .Values.annotations }}
   annotations:
   {{- range $key, $value := .Values.annotations }}
-    - {{ $key }}: {{ $value }}
+    {{ $key }}: {{ $value }}
   {{- end }}
   {{- end }}
   labels:

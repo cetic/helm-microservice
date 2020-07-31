@@ -14,7 +14,8 @@ fullnameOverride: ""
 
 #imagePullSecrets: 
 #serviceAccount: 
-#annotations:
+
+annotations: {}
 
 services:
   - name: web
