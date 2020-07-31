@@ -2,7 +2,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
+global:
+  replicaCount: 1
+  environment: []
 
 image:
   repository: "crccheck/hello-world"

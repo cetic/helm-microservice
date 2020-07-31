@@ -56,8 +56,8 @@ spec:
             {{- end }}
             {{- end }}
           env:
-          {{- range .Values.environment }}
-          - name: {{ .name }}
+          {{- range concat (.Values.global.environment) (.Values.environment | default list)}}
+          - name: {{ .name | quote}}
             value: {{ .value | quote }}
           {{- end }}
           resources:
