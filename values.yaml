@@ -19,7 +19,7 @@ annotations: {}
 
 services:
   - name: web
-    type: LoadBalancer
+    type: ClusterIP
     specs:
     - port: 8000
       targetPort: 8000
@@ -46,11 +46,11 @@ services:
 #port: is the abstracted Service port, which can be any port other pods use to access the Service
 #https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#serviceport-v1-core
 
-environment:
-  - name: VAR1
-    value: value1
-  - name: VAR2
-    value: value2
+#environment:
+#  - name: VAR1
+#    value: value1
+#  - name: VAR2
+#    value: value2
 
 ingress:
   enabled: false
