@@ -5,3 +5,5 @@
 *.lock
 
 .idea
+
+/test/go.sum
