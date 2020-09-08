@@ -7,8 +7,8 @@ global:
   environment: []
 
 image:
-  repository: "crccheck/hello-world"
-  tag: "latest"
+  repository: "rancher/hello-world"
+  tag: "v0.1.2"
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -23,8 +23,8 @@ services:
   - name: web
     type: ClusterIP
     specs:
-    - port: 8000
-      targetPort: 8000
+    - port: 80
+      targetPort: 80
       name: http
 #  - name: monitor
 #    type: LoadBalancer
@@ -61,7 +61,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: chart-example.local
-      servicePort: 8000
+      servicePort: 80
       serviceName: web
       path: /
   tls: []
