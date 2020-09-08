@@ -15,7 +15,6 @@ jobs:
         ./get_helm.sh
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: test directory
-      run: cd test
     - name: Test
       run: go test -v .
+      working-directory: ./test
