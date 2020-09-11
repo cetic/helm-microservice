@@ -14,7 +14,7 @@ import (
 
 func TestPodDeploysContainerImage(t *testing.T) {
 	// Path to the helm chart we will test
-	helmChartPath := "../charts/minimal-pod"
+	helmChartPath := "../"
 
 	// Setup the kubectl config and context. Here we choose to use the defaults, which is:
 	// - HOME/.kube/config for the kubectl config file
@@ -44,29 +44,3 @@ func TestPodDeploysContainerImage(t *testing.T) {
 	verifyNginxPod(t, kubectlOptions, podName)
 }
 
-// verifyNginxPod will open a tunnel to the Pod and hit the endpoint to verify the nginx welcome page is shown.
-func verifyNginxPod(t *testing.T, kubectlOptions *k8s.KubectlOptions, podName string) {
-	// Wait for the pod to come up. It takes some time for the Pod to start, so retry a few times.
-	retries := 15
-	sleep := 5 * time.Second
-	k8s.WaitUntilPodAvailable(t, kubectlOptions, podName, retries, sleep)
-
-	// We will first open a tunnel to the pod, making sure to close it at the end of the test.
-	tunnel := k8s.NewTunnel(kubectlOptions, k8s.ResourceTypePod, podName, 0, 80)
-	defer tunnel.Close()
-	tunnel.ForwardPort(t)
-
-	// ... and now that we have the tunnel, we will verify that we get back a 200 OK with the nginx welcome page.
-	// It takes some time for the Pod to start, so retry a few times.
-	endpoint := fmt.Sprintf("http://%s", tunnel.Endpoint())
-	http_helper.HttpGetWithRetryWithCustomValidation(
-		t,
-		endpoint,
-		nil,
-		retries,
-		sleep,
-		func(statusCode int, body string) bool {
-			return statusCode == 200 && strings.Contains(body, "Welcome to nginx")
-		},
-	)
-}
