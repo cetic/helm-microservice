@@ -16,34 +16,18 @@ fullnameOverride: ""
 
 #imagePullSecrets: 
 #serviceAccount: 
+# Annotation for the Deployment
+annotations: {
 
-annotations: {}
-
+}
 services:
   - name: web
     type: ClusterIP
+    annotations: {}
     specs:
     - port: 8000
       targetPort: 8000
       name: http
-#  - name: monitor
-#    type: LoadBalancer
-#    specs:
-#    - port: 8001
-#      name: monitor
-#      protocol: UDP
-#  - type: NodePort
-#    name: internal-com
-#    specs:
-#    - name: port1
-#      port: 8001
-#      targetPort: 8001
-#      protocol: TCP
-#    - name: port2
-#      type: ClusterIP
-#      port: 8002
-#      targetPort: 8002
-#      nodePort: 30081
 #targetPort: is the port the container accepts traffic on, 
 #port: is the abstracted Service port, which can be any port other pods use to access the Service
 #https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#serviceport-v1-core
