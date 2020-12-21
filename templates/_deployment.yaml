@@ -47,6 +47,12 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.command }}
+          command: {{ .Values.command }}
+          {{- end }}
+          {{- if .Values.args }}
+          args: {{ .Values.args }}
+          {{- end }}
           ports:
             {{- range .Values.services -}}
             {{- range $port:= .specs}}

@@ -11,6 +11,9 @@ image:
   tag: "latest"
   pullPolicy: IfNotPresent
 
+#command: ["/bin/sh","-c"]
+#args: ["echo 'consuming a message'; sleep 5"]
+
 nameOverride: ""
 fullnameOverride: ""
 

@@ -40,7 +40,7 @@ TBD
 
 ### Install the chart
 
-Install the microseAboutrvice helm chart with a release name `my-release`:
+Install the microservice helm chart with a release name `my-release`:
 
 ```bash
 helm install my-release cetic/microservice
