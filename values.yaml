@@ -4,12 +4,13 @@
 
 global:
   replicaCount: 1
-  environment: []
-
+  environment: #{} #list of key: value
+#    GLOBAL1: value
 image:
   repository: "crccheck/hello-world"
   tag: "latest"
   pullPolicy: IfNotPresent
+#replicaCount: 1
 
 #command: ["/bin/sh","-c"]
 #args: ["echo 'consuming a message'; sleep 5"]
@@ -23,6 +24,7 @@ fullnameOverride: ""
 annotations: {
 
 }
+
 services:
   - name: web
     type: ClusterIP
@@ -35,11 +37,28 @@ services:
 #port: is the abstracted Service port, which can be any port other pods use to access the Service
 #https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#serviceport-v1-core
 
-#environment:
-#  - name: VAR1
-#    value: value1
-#  - name: VAR2
-#    value: value2
+environment:
+#   VAR1: value1
+
+
+volumes:
+  enabled: false
+  pvc:
+    enabled: false
+    existing_claim:
+    name: pvc
+    mountPath: /pv
+    size: 1G
+    class:
+    accessModes:
+      - ReadWriteOnce
+
+  configMaps:
+#    - name: test
+#      mountPath: /test
+#      data:
+#        test.conf: |
+#          hello
 
 ingress:
   enabled: false
@@ -63,3 +82,4 @@ resources:
   requests:
     cpu: 500m
     memory: 500Mi
+

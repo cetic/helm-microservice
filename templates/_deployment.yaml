@@ -15,7 +15,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.replicaCount | default .Values.global.replicaCount }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "microservice.name" . }}
@@ -61,11 +61,37 @@ spec:
               protocol: {{ .protocol | default "TCP" }}
             {{- end }}
             {{- end }}
+          {{- if (merge .Values.global.environment .Values.environment) }}
           env:
-          {{- range concat (.Values.global.environment) (.Values.environment | default list)}}
-          - name: {{ .name | quote}}
-            value: {{ .value | quote }}
+          {{- range $name, $value := merge .Values.global.environment .Values.environment}}
+          - name: {{ $name | quote}}
+            value: {{ $value | quote }}
+          {{- end }}
+          {{- end }}
+          {{- if .Values.volumes.enabled }}
+          volumeMounts:
+            {{- range $conf := .Values.volumes.configMaps }}
+            - mountPath: {{ $conf.mountPath }}
+              name: {{ $conf.name }}-volume
+            {{- end }}
+            {{- if .Values.volumes.pvc.enabled }}
+            - mountPath: {{ .Values.volumes.pvc.mountPath }}
+              name: {{ .Values.volumes.pvc.existing_claim | default .Values.volumes.pvc.name }}-volume
+            {{- end }}
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.volumes.enabled }}
+      volumes:
+        {{- range $conf := .Values.volumes.configMaps }}
+        - name: {{ $conf.name }}-volume
+          configMap:
+            name: {{ $conf.name }}
+      {{- end }}
+      {{- if .Values.volumes.pvc.enabled}}
+        - name: {{ .Values.volumes.pvc.existing_claim | default .Values.volumes.pvc.name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.volumes.pvc.existing_claim | default .Values.volumes.pvc.name }}
+      {{- end}}
+      {{- end }}
 {{- end -}}
