@@ -1,30 +1,43 @@
+---
 # Default values for microservice.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 global:
   replicaCount: 1
-  environment: #{} #list of key: value
-#    GLOBAL1: value
+  environment:
+   # list of key: value
+   # GLOBAL1: value
+
+## Set default image, imageTag, and imagePullPolicy.
+## ref: https://hub.docker.com/r/apache/nifi/
+##   
 image:
   repository: "crccheck/hello-world"
   tag: "latest"
   pullPolicy: IfNotPresent
-#replicaCount: 1
 
-#command: ["/bin/sh","-c"]
-#args: ["echo 'consuming a message'; sleep 5"]
+  #replicaCount: 1
+
+# command: ["/bin/sh","-c"]
+# args: ["echo 'consuming a message'; sleep 5"]
 
 nameOverride: ""
 fullnameOverride: ""
 
-#imagePullSecrets: 
-#serviceAccount: 
+## Optionally specify an imagePullSecret.
+## Secret must be manually created in the namespace.
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+##
+# imagePullSecrets: myRegistrKeySecretName
+
+
+# serviceAccount: 
+
 # Annotation for the Deployment
-annotations: {
+annotations: {}
 
-}
-
+# List of services
 services:
   - name: web
     type: ClusterIP
@@ -39,7 +52,6 @@ services:
 
 environment:
 #   VAR1: value1
-
 
 volumes:
   enabled: false
@@ -60,6 +72,8 @@ volumes:
 #        test.conf: |
 #          hello
 
+## Configure Ingress based on the documentation here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+##
 ingress:
   enabled: false
   annotations: {}
@@ -75,6 +89,9 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
 resources:
   limits:
     cpu: 2
@@ -82,4 +99,3 @@ resources:
   requests:
     cpu: 500m
     memory: 500Mi
-
