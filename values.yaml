@@ -5,7 +5,7 @@
 
 global:
   replicaCount: 1
-  environment:
+  environment: {}
    # list of key: value
    # GLOBAL1: value
 
@@ -50,7 +50,7 @@ services:
 #port: is the abstracted Service port, which can be any port other pods use to access the Service
 #https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#serviceport-v1-core
 
-environment:
+environment: {}
 #   VAR1: value1
 
 volumes:
