@@ -6,10 +6,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "microservice.fullname" $root }}-svc-{{ $service.name }}
-{{- if $root.annotations }}
+{{- if $service.annotations }}
   annotations:
-{{- range $key, $value := $root.annotations }}
-   {{ $key }}: {{ $value }}
+{{- range $key, $value := $service.annotations }}
+    {{ $key }}: {{ $value }}
 {{- end }}
 {{- end }}
   labels:

@@ -1,59 +1,79 @@
+---
 # Default values for microservice.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 global:
   replicaCount: 1
-  environment: []
+  environment: {}
+   # list of key: value
+   # GLOBAL1: value
 
+## Set default image, imageTag, and imagePullPolicy.
+## ref: https://hub.docker.com/r/apache/nifi/
+##   
 image:
   repository: "rancher/hello-world"
   tag: "v0.1.2"
   pullPolicy: IfNotPresent
 
+  #replicaCount: 1
+
+# command: ["/bin/sh","-c"]
+# args: ["echo 'consuming a message'; sleep 5"]
+
 nameOverride: ""
 fullnameOverride: ""
 
-#imagePullSecrets: 
-#serviceAccount: 
+## Optionally specify an imagePullSecret.
+## Secret must be manually created in the namespace.
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+##
+# imagePullSecrets: myRegistrKeySecretName
 
+
+# serviceAccount: 
+
+# Annotation for the Deployment
 annotations: {}
 
+# List of services
 services:
   - name: web
     type: ClusterIP
+    annotations: {}
     specs:
     - port: 80
       targetPort: 80
       name: http
-#  - name: monitor
-#    type: LoadBalancer
-#    specs:
-#    - port: 8001
-#      name: monitor
-#      protocol: UDP
-#  - type: NodePort
-#    name: internal-com
-#    specs:
-#    - name: port1
-#      port: 8001
-#      targetPort: 8001
-#      protocol: TCP
-#    - name: port2
-#      type: ClusterIP
-#      port: 8002
-#      targetPort: 8002
-#      nodePort: 30081
 #targetPort: is the port the container accepts traffic on, 
 #port: is the abstracted Service port, which can be any port other pods use to access the Service
 #https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#serviceport-v1-core
 
-#environment:
-#  - name: VAR1
-#    value: value1
-#  - name: VAR2
-#    value: value2
+environment: {}
+#   VAR1: value1
 
+volumes:
+  enabled: false
+  pvc:
+    enabled: false
+    existing_claim:
+    name: pvc
+    mountPath: /pv
+    size: 1G
+    class:
+    accessModes:
+      - ReadWriteOnce
+
+  configMaps:
+#    - name: test
+#      mountPath: /test
+#      data:
+#        test.conf: |
+#          hello
+
+## Configure Ingress based on the documentation here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+##
 ingress:
   enabled: false
   annotations: {}
@@ -69,6 +89,9 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
 resources:
   limits:
     cpu: 2

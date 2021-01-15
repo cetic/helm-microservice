@@ -36,11 +36,20 @@ helm repo update
 
 The following items can be set via `--set` flag during installation or configured by editing the `values.yaml` directly (need to download the chart first).
 
-TBD
+#### Configure the way how to expose the microservice service:
+
+- **Ingress**: The ingress controller must be installed in the Kubernetes cluster.
+- **ClusterIP**: Exposes the service on a cluster-internal IP. Choosing this value makes the service only reachable from within the cluster.
+- **NodePort**: Exposes the service on each Node’s IP at a static port (the NodePort). You’ll be able to contact the NodePort service, from outside the cluster, by requesting `NodeIP:NodePort`.
+- **LoadBalancer**: Exposes the service externally using a cloud provider’s load balancer.
+
+#### Configurations
+
+For other configurations, please see the [values.yaml](values.yaml) file. This file lists the configurable parameters of the microservice chart and the default values.
 
 ### Install the chart
 
-Install the microseAboutrvice helm chart with a release name `my-release`:
+Install the microservice helm chart with a release name `my-release`:
 
 ```bash
 helm install my-release cetic/microservice
@@ -53,15 +62,6 @@ To uninstall/delete the `my-release` deployment:
 ```bash
 helm uninstall my-release
 ```
-
-## Configuration
-
-The following table lists the configurable parameters of the microservice chart and the default values.
-
-| Parameter                                                                   | Description                                                                                                        | Default                         |
-| --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------| ------------------------------- |
-
-TBD
 
 ## Contributing
 
