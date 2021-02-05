@@ -20,18 +20,16 @@ func TestPodDeploysContainerImageHelmTemplateEngine(t *testing.T) {
 	// - Current context of the kubectl config file
 	// We also specify that we are working in the default namespace (required to get the Pod)
 	kubectlOptions := k8s.NewKubectlOptions("", "", "default")
-
 	// Setup the args. For this test, we will set the following input values:
-	// - image=nginx:1.15.8
-	// - fullnameOverride=minimal-pod-RANDOM_STRING
+	// - fullnameOverride=microservice-RANDOM_STRING
 	// We use a fullnameOverride so we can find the Pod later during verification
-	podName := fmt.Sprintf("minimal-pod-%s", strings.ToLower(random.UniqueId()))
+	podName := fmt.Sprintf("microservice-%s", strings.ToLower(random.UniqueId()))
 	options := &helm.Options{
-		SetValues: map[string]string{"fullnameOverride": podName, "nameOverride": podName},
+		SetValues: map[string]string{"fullnameOverride": podName},
 	}
 
 	// Run RenderTemplate to render the template and capture the output.
-	output := helm.RenderTemplate(t, options, helmChartPath, "minimal-pod", []string{})
+	output := helm.RenderTemplate(t, options, helmChartPath, "microservice", []string{})
 
 	// Make sure to delete the resources at the end of the test
 	defer k8s.KubectlDeleteFromString(t, kubectlOptions, output)
@@ -41,11 +39,11 @@ func TestPodDeploysContainerImageHelmTemplateEngine(t *testing.T) {
 
 	// Now that the chart is deployed, verify the deployment. This function will open a tunnel to the Pod and hit the
 	// nginx container endpoint.
-	verifyNginxPod(t, kubectlOptions, podName)
+	verifyHelloPod(t, kubectlOptions, podName)
 }
 
-// verifyNginxPod will open a tunnel to the Pod and hit the endpoint to verify the nginx welcome page is shown.
-func verifyNginxPod(t *testing.T, kubectlOptions *k8s.KubectlOptions, podName string) {
+// verifyHelloPod will open a tunnel to the Pod and hit the endpoint to verify the helloworld page is shown.
+func verifyHelloPod(t *testing.T, kubectlOptions *k8s.KubectlOptions, podName string) {
 	// Wait for the pod to come up. It takes some time for the Pod to start, so retry a few times.
 	retries := 15
 	sleep := 5 * time.Second
