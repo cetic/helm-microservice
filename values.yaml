@@ -1,4 +1,3 @@
----
 # Default values for microservice.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -11,7 +10,7 @@ global:
 
 ## Set default image, imageTag, and imagePullPolicy.
 ## ref: https://hub.docker.com/r/apache/nifi/
-##   
+##
 image:
   repository: "crccheck/hello-world"
   tag: "latest"
@@ -32,7 +31,7 @@ fullnameOverride: ""
 # imagePullSecrets: myRegistrKeySecretName
 
 
-# serviceAccount: 
+# serviceAccount:
 
 # Annotation for the Deployment
 annotations: {}
@@ -53,6 +52,21 @@ services:
 environment: {}
 #   VAR1: value1
 
+#Probes
+liveness:
+  enabled: false
+  path: /alive
+  port: 8001
+  initialDelaySeconds: 3
+  periodSeconds: 3
+readiness:
+  enabled: false
+  path: /ready
+  port: 8001
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  failureThreshold: 3
+
 volumes:
   enabled: false
   pvc:
@@ -72,8 +86,6 @@ volumes:
 #        test.conf: |
 #          hello
 
-## Configure Ingress based on the documentation here: https://kubernetes.io/docs/concepts/services-networking/ingress/
-##
 ingress:
   enabled: false
   annotations: {}
@@ -89,9 +101,6 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-## Configure resource requests and limits
-## ref: http://kubernetes.io/docs/user-guide/compute-resources/
-##
 resources:
   limits:
     cpu: 2
@@ -99,3 +108,4 @@ resources:
   requests:
     cpu: 500m
     memory: 500Mi
+
