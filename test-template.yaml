@@ -1,0 +1,64 @@
+---
+# Source: microservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: RELEASE-NAME-microservice-svc-web
+  labels:
+    app.kubernetes.io/name: RELEASE-NAME-microservice-svc-web
+    helm.sh/chart: microservice-0.2.5
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: microservice
+    app.kubernetes.io/instance: RELEASE-NAME
+  ports:
+    - name: http
+      port: 8000
+      protocol: TCP
+      targetPort: 8000
+---
+# Source: microservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: RELEASE-NAME-microservice
+  labels:
+    app.kubernetes.io/name: microservice
+    helm.sh/chart: microservice-0.2.5
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: microservice
+      app.kubernetes.io/instance: RELEASE-NAME
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: microservice
+        app.kubernetes.io/instance: RELEASE-NAME
+    spec:
+      containers:
+        - name: microservice
+          image: "crccheck/hello-world:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          env:
+          - name: "GLOBAL1"
+            value: "value"
+          - name: "VAR1"
+            value: "value1"
+          resources:
+            limits:
+              cpu: 2
+              memory: 2000Mi
+            requests:
+              cpu: 500m
+              memory: 500Mi

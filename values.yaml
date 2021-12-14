@@ -40,6 +40,20 @@ services:
 environment:
 #   VAR1: value1
 
+#Probes
+liveness:
+  enabled: false
+  path: /alive
+  port: 8001
+  initialDelaySeconds: 3
+  periodSeconds: 3
+readiness:
+  enabled: false
+  path: /ready
+  port: 8001
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  failureThreshold: 3
 
 volumes:
   enabled: false
