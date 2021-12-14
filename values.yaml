@@ -4,27 +4,39 @@
 
 global:
   replicaCount: 1
-  environment: #{} #list of key: value
-#    GLOBAL1: value
+  environment: {}
+   # list of key: value
+   # GLOBAL1: value
+
+## Set default image, imageTag, and imagePullPolicy.
+## ref: https://hub.docker.com/r/apache/nifi/
+##
 image:
   repository: "crccheck/hello-world"
   tag: "latest"
   pullPolicy: IfNotPresent
-#replicaCount: 1
 
-#command: ["/bin/sh","-c"]
-#args: ["echo 'consuming a message'; sleep 5"]
+  #replicaCount: 1
+
+# command: ["/bin/sh","-c"]
+# args: ["echo 'consuming a message'; sleep 5"]
 
 nameOverride: ""
 fullnameOverride: ""
 
-#imagePullSecrets: 
-#serviceAccount: 
+## Optionally specify an imagePullSecret.
+## Secret must be manually created in the namespace.
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+##
+# imagePullSecrets: myRegistrKeySecretName
+
+
+# serviceAccount:
+
 # Annotation for the Deployment
-annotations: {
+annotations: {}
 
-}
-
+# List of services
 services:
   - name: web
     type: ClusterIP
@@ -37,7 +49,7 @@ services:
 #port: is the abstracted Service port, which can be any port other pods use to access the Service
 #https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#serviceport-v1-core
 
-environment:
+environment: {}
 #   VAR1: value1
 
 #Probes
