@@ -1,17 +1,27 @@
 {{- define "configmap"  -}}
 {{- if .Values.volumes.configMaps }}
+{{ $header := .Values.configFileCommonHeader | default "" }}
+  {{ $root := . }}
 {{ range $cm := .Values.volumes.configMaps}}
-{{- if $cm.data }}
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ $cm.name }}
 data:
+  {{- if $cm.data }}
   {{- range $filename, $content := $cm.data }}
   # property-like keys; each key maps to a simple value
   {{ $filename }}: {{ $content }}
   {{- end }}
-{{- end }}
+  {{- end }}
+  {{- if $cm.files }}
+  {{- range $file := $cm.files }}
+  {{ $file.destination }}: |
+    {{ $header }}
+    {{ $root.Files.Get $file.source }}
+  {{- end}}
+  {{- end }}
 {{- end }}
 {{- end }}
 {{- end -}}

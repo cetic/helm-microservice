@@ -28,10 +28,16 @@ fullnameOverride: ""
 ## Secret must be manually created in the namespace.
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 ##
-# imagePullSecrets: myRegistrKeySecretName
+imagePullSecrets: myRegistrKeySecretName
+imageCredentials:
+  registry: https://index.docker.io/v1/
+  username: username
+  password: password
+  email: tsorage@cetic.be
 
-
-# serviceAccount:
+serviceAccount: microservice-sa
+createServiceAccount: true
+rbac: true
 
 # Annotation for the Deployment
 annotations: {}
@@ -68,7 +74,7 @@ readiness:
   failureThreshold: 3
 
 volumes:
-  enabled: false
+  enabled: true
   pvc:
     enabled: false
     existing_claim:
@@ -79,12 +85,27 @@ volumes:
     accessModes:
       - ReadWriteOnce
 
+  configFileCommonHeader: commonValue
   configMaps:
-#    - name: test
-#      mountPath: /test
-#      data:
-#        test.conf: |
-#          hello
+    - name: test
+      mountPath: /test
+      data:
+        test.conf: |
+          hello
+    - name: test-from-file
+      mountPath: /test2
+      files:
+        - source: config.conf
+          destination: application.conf
+    - name: test-mixed
+      mountPath: /test3
+      data:
+        test2.conf: |
+          another hello
+      files:
+        - source: config.conf
+          destination: application2.conf
+
 
 ingress:
   enabled: false

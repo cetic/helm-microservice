@@ -30,6 +30,9 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.imagePullSecrets }}
       {{- end }}
+      {{- if .Values.imageCredentials }}
+      - name: {{ include "microservice.name" . }}-docker-credentials
+      {{- end }}
       {{- if .Values.serviceAccount }}
       serviceAccountName: {{ .Values.serviceAccount }}
       {{- end }}

@@ -7,14 +7,13 @@
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
-
 {{/* vim: set filetype=mustache: */}}
 {{/*
 Expand the name of the chart.
 */}}
 {{- define "microservice.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
+{{- end }}
 
 {{/*
 Create a default fully qualified app name.
@@ -40,3 +39,14 @@ Create chart name and version as used by the chart label.
 {{- define "microservice.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+
+
+{{/*
+Create docker credentials.
+*/}}
+{{- define "docker_credentials_tpl" }}
+{{- with .Values.imageCredentials }}
+{{- printf "{\"auths\":{\"%s\":{\"username\":\"%s\",\"password\":\"%s\",\"email\":\"%s\",\"auth\":\"%s\"}}}" .registry .username .password .email (printf "%s:%s" .username .password | b64enc) | b64enc }}
+{{- end }}
+{{- end }}
