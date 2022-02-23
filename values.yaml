@@ -36,8 +36,8 @@ imageCredentials:
   email: tsorage@cetic.be
 
 serviceAccount: microservice-sa
-createServiceAccount: true
-rbac: true
+createServiceAccount: false
+rbac: false
 
 # Annotation for the Deployment
 annotations: {}
@@ -74,7 +74,7 @@ readiness:
   failureThreshold: 3
 
 volumes:
-  enabled: true
+  enabled: false
   pvc:
     enabled: false
     existing_claim:
@@ -85,7 +85,10 @@ volumes:
     accessModes:
       - ReadWriteOnce
 
-  configFileCommonHeader: commonValue
+  configFileCommonHeader: |
+    line1
+    line2
+
   configMaps:
     - name: test
       mountPath: /test

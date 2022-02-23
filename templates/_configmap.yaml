@@ -1,7 +1,9 @@
-{{- define "configmap"  -}}
+{{- define "configmap"  }}
+#ConfigMap mounted as volumes
 {{- if .Values.volumes.configMaps }}
-{{ $header := .Values.configFileCommonHeader | default "" }}
-  {{ $root := . }}
+{{- if .Values.volumes.enabled }}
+{{ $header := .Values.volumes.configFileCommonHeader | default "" }}
+{{ $root := . }}
 {{ range $cm := .Values.volumes.configMaps}}
 ---
 apiVersion: v1
@@ -18,10 +20,11 @@ data:
   {{- if $cm.files }}
   {{- range $file := $cm.files }}
   {{ $file.destination }}: |
-    {{ $header }}
+{{ $header | toString | indent 4 }}
     {{ $root.Files.Get $file.source }}
   {{- end}}
   {{- end }}
 {{- end }}
 {{- end }}
-{{- end -}}
+{{- end }}
+{{- end }}
