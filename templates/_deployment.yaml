@@ -26,8 +26,10 @@ spec:
         app.kubernetes.io/name: {{ include "microservice.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      {{- if .Values.imagePullSecrets }}
+      {{- if or .Values.imagePullSecrets .Values.imageCredentials }}
       imagePullSecrets:
+      {{- end }}
+      {{- if .Values.imagePullSecrets }}
       - name: {{ .Values.imagePullSecrets }}
       {{- end }}
       {{- if .Values.imageCredentials }}
