@@ -14,7 +14,7 @@ data:
   {{- if $cm.data }}
   {{- range $filename, $content := $cm.data }}
   # property-like keys; each key maps to a simple value
-  {{ $filename }}: |
+  {{ $filename }}: |-
 {{ $content | toString | indent 4}}
   {{- end }}
   {{- end }}

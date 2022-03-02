@@ -37,7 +37,7 @@ imageCredentials:
   email: tsorage@cetic.be
 
 #serviceAccount: microservice-sa
-createServiceAccount: false
+createServiceAccount: true
 rbac: false
 
 # Annotation for the Deployment
@@ -75,7 +75,7 @@ readiness:
   failureThreshold: 3
 
 volumes:
-  enabled: false
+  enabled: true
   pvc:
     enabled: false
     existing_claim:
@@ -96,21 +96,21 @@ volumes:
       data:
         test.conf: |
           hello
-          hello2
+#          hello2
 
-    - name: test-from-file
-      mountPath: /test2
-      files:
-        - source: config.conf
-          destination: application.conf
-    - name: test-mixed
-      mountPath: /test3
-      data:
-        test2.conf: |
-          another hello
-      files:
-        - source: config.conf
-          destination: application2.conf
+#    - name: test-from-file
+#      mountPath: /test2
+#      files:
+#        - source: config.conf
+#          destination: application.conf
+#    - name: test-mixed
+#      mountPath: /test3
+#      data:
+#        test2.conf: |
+#          another hello
+#      files:
+#        - source: config.conf
+#          destination: application2.conf
 
 
 ingress:
