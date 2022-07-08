@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This helm chart deploys a deployement, with a series of services and ingresses for a given container, hosting a web service with the following properties:
+This helm chart deploys a deployment, with a series of services and ingresses for a given container, hosting a web service with the following properties:
 
 - Configuration from environment variables
 - exposes a number of ports, dependent on the container
